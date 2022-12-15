@@ -24,3 +24,31 @@ class CategoryStore {
 }
 
 export const categorystore = new CategoryStore();
+
+
+
+class DeleteCategoryStore {
+  data = null;
+  error = null;
+  loading = false;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  async deleteCategoryData(KategoriId) {
+    console.log("SDJHFGJ",KategoriId);
+    this.loading = false;
+    try {
+      const response = await axios.delete("http://localhost:3500/kategoriSil",{ data: { KategoriId } });
+      console.log("askjdgfksjdhyfgvkusj",response.data.json)
+      this.data = response.data;
+    } catch (err) {
+      this.error = err;
+    } finally {
+      this.loading = false;
+    }
+  }
+}
+
+export const deletecategorystore = new DeleteCategoryStore();
