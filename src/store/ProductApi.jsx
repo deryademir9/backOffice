@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import axios from "axios";
+import { message } from "antd";
 
 class ProductStore {
   data = null;
@@ -10,11 +11,13 @@ class ProductStore {
     makeAutoObservable(this);
   }
 
-  async fetchProductData() {
+  fetchProductData= async ()=> {
     this.loading = true;
     try {
-      const response = await axios.get("http://localhost:3500/urunList");
-      this.data = response.data;
+      const fetchResponse = await axios.get("http://localhost:3500/urunList");
+      console.log("sdgfsrde",fetchResponse, this.error);
+
+      this.data = fetchResponse.data;
     } catch (err) {
       this.error = err;
     } finally {
@@ -22,58 +25,27 @@ class ProductStore {
     }
   }
 
-  
-}
-
-export const productstore = new ProductStore();
-
-
-
-class DeleteProductStore {
-  data = null;
-  error = null;
-  loading = false;
-
-  constructor() {
-    makeAutoObservable(this);
-  }
-
-  async deleteProductData(UrunID) {
+   deleteProductData = async(UrunID) => {
     console.log("SDJHFGJ",UrunID);
     this.loading = false;
+    
     try {
-      const response = await axios.delete("http://localhost:3500/urunSil",{ data: { UrunID } });
-      console.log("askjdgfksjdhyfgvkusj",response.data.json)
-      this.data = response.data;
+      const deleteResponse = await axios.delete("http://localhost:3500/urunSil",{ data: { UrunID } });
+       
+      console.log("askjdgfksjdhyfgvkusj",deleteResponse.data)
+      this.data = deleteResponse.data;
+      if (deleteResponse.data.responseCode===100) {
+        await this.fetchProductData();
+        console.log("kwsje" );
+      }
     } catch (err) {
       this.error = err;
     } finally {
       this.loading = false;
     }
   }
-}
 
-export const deleteproductstore = new DeleteProductStore();
-
-
-
-class AddProductStore {
-  data = null;
-  error = null;
-  loading = false;
-
-  constructor() {
-    makeAutoObservable(this);
-  }
-
-  async deleteProductData( UrunAdi,
-  UrunAciklama,
-  UrunResimUrl,
-  UrunFiyat,
-  UrunStokAdedi,
-  UrunKategoriID,
-  UrunDurumuID,
-  ) {
+ addProductData = async( UrunAdi,UrunAciklama,UrunResimUrl,UrunFiyat,UrunStokAdedi,UrunKategoriID,UrunDurumuID, ) => {
     console.log("SDJHFGJ",UrunAdi,
     UrunAciklama,
     UrunResimUrl,
@@ -83,25 +55,27 @@ class AddProductStore {
     UrunDurumuID,);
     this.loading = false;
     try {
-      const response = await axios.post("http://localhost:3500/urunEkle",{
+      const addResponse = await axios.post("http://localhost:3500/urunEkle",{
 
       UrunAdi:"",
-      
+   
       UrunAciklama:"",
-    
+ 
       UrunResimUrl:"",
-    
+ 
       UrunFiyat:"",
-    
+ 
       UrunStokAdedi:"",
-    
+ 
       UrunKategoriID:"",
-    
+ 
       UrunDurumuID:"" ,
-      
-      });
-      console.log("askjdgfksjdhyfgvkusj",response.data.json)
-      this.data = response.data;
+   
+      }); if (addResponse.data.responseCode===100) {
+        this.fetchProductData();
+      }
+      console.log("askjdgfksjdhyfgvkusj",addResponse.data.json)
+      this.data = addResponse.data;
     } catch (err) {
       this.error = err;
     } finally {
@@ -110,4 +84,92 @@ class AddProductStore {
   }
 }
 
-export const addproductstore = new AddProductStore();
+export const productstore = new ProductStore();
+
+
+
+// class DeleteProductStore {
+//   data = null;
+//   error = null;
+//   loading = false;
+
+//   constructor() {
+//     makeAutoObservable(this);
+//   }
+
+//   async deleteProductData(UrunID) {
+//     console.log("SDJHFGJ",UrunID);
+//     this.loading = false;
+//     try {
+//       const response = await axios.delete("http://localhost:3500/urunSil",{ data: { UrunID } });
+//       if (response) {
+//         fetchProductData();
+//       }
+//       console.log("askjdgfksjdhyfgvkusj",response.data.json)
+//       this.data = response.data;
+//     } catch (err) {
+//       this.error = err;
+//     } finally {
+//       this.loading = false;
+//     }
+//   }
+// }
+
+// export const deleteproductstore = new DeleteProductStore();
+
+
+
+// class AddProductStore {
+//   data = null;
+//   error = null;
+//   loading = false;
+
+//   constructor() {
+//     makeAutoObservable(this);
+//   }
+
+//   async addProductData( UrunAdi,
+//   UrunAciklama,
+//   UrunResimUrl,
+//   UrunFiyat,
+//   UrunStokAdedi,
+//   UrunKategoriID,
+//   UrunDurumuID,
+//   ) {
+//     console.log("SDJHFGJ",UrunAdi,
+//     UrunAciklama,
+//     UrunResimUrl,
+//     UrunFiyat,
+//     UrunStokAdedi,
+//     UrunKategoriID,
+//     UrunDurumuID,);
+//     this.loading = false;
+//     try {
+//       const response = await axios.post("http://localhost:3500/urunEkle",{
+
+//       UrunAdi:"",
+      
+//       UrunAciklama:"",
+    
+//       UrunResimUrl:"",
+    
+//       UrunFiyat:"",
+    
+//       UrunStokAdedi:"",
+    
+//       UrunKategoriID:"",
+    
+//       UrunDurumuID:"" ,
+      
+//       });
+//       console.log("askjdgfksjdhyfgvkusj",response.data.json)
+//       this.data = response.data;
+//     } catch (err) {
+//       this.error = err;
+//     } finally {
+//       this.loading = false;
+//     }
+//   }
+// }
+
+// export const addproductstore = new AddProductStore();

@@ -16,7 +16,7 @@ const items = [
 
 function MainHeader() {
   return (
-    <nav style={{padding: '10px' , marginBottom:'5px',display:'flex', justifyContent:'space-between', borderBottom:'blur 3px #c4c1e0', lineHeigth:'1px'}}>
+    <nav style={{padding: '10px' , marginBottom:'5px',display:'flex', justifyContent:'space-between', borderBottom:'solid 1.5px #c4c1e0', lineHeigth:'1px'}}>
       <div className="left" style={{display:'flex'}}>
         <ul style={{display:'flex' }}>
           <li style={{ marginLeft:'80px' }}

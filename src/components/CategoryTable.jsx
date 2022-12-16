@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 function CategoryTable() {
   const isLoading= categorystore.loading ;
   const isError= categorystore.error;
-  const categorydata= categorystore.data;
+  const categorydata= toJS(categorystore.data);
  
   useEffect(()=>{categorystore.fetchCategoryData()},[])
  
@@ -35,7 +35,7 @@ function CategoryTable() {
     key: "action",
     render: (text, record) => (
       <div>
-        <Link to={`/product/${record.ID}`}>Düzenle</Link>
+        <Link to={`/category/${record.ID}`}>Düzenle</Link>
         <Popconfirm 
         title="Silinsin mi?"
         onConfirm={()=>{ deletecategorystore.deleteCategoryData(record.ID)

@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 function OrderTable() {
  const isLoading= orderstore.loading ;
  const isError= orderstore.error;
- const orderdata= orderstore.data;
+ const orderdata= toJS(orderstore.data);
 
  useEffect(()=>{orderstore.fetchOrderData()},[])
 

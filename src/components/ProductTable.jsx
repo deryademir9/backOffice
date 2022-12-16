@@ -1,6 +1,6 @@
-import { deleteproductstore ,productstore } from "../store/ProductApi";
+import { productstore } from "../store/ProductApi";
 import { toJS } from "mobx";
-import { Table , Popconfirm } from "antd";
+import { Table, Popconfirm } from "antd";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
@@ -8,18 +8,14 @@ import { useEffect } from "react";
 const ProductTable = observer(() => {
   const isLoading = productstore.loading;
   const isError = productstore.error;
-  const productdata = productstore.data;
+  const productdata = toJS(productstore.data);
 
   useEffect(() => {
     productstore.fetchProductData();
   }, []);
 
-  // useEffect(() => {
-  //   productstore.fetchProductData();
-  // }, []);
-
   if (isLoading) {
-    return <div style={{color:'red'}}> loading...</div>;
+    return <div style={{ color: "red" }}> loading...</div>;
   }
 
   if (isError) {
@@ -27,7 +23,6 @@ const ProductTable = observer(() => {
   }
 
   console.log(toJS(productdata));
-
 
   const columns = [
     {
@@ -71,15 +66,22 @@ const ProductTable = observer(() => {
       render: (text, record) => (
         <div>
           <Link to={`/product/${record.ID}`}>Düzenle</Link>
-          <Popconfirm 
-          title="Silinsin mi?"
-          onConfirm={()=>{ deleteproductstore.deleteProductData(record.ID)
-            
-          }}
-          onCancel={()=>{console.log("İşlem iptal edildi.")}}
-          okText="Evet"
-          cancelText="İptal"
-          placement="left"><a href="/#" style={{marginLeft:'5px'}}>Sil</a></Popconfirm>
+          <Popconfirm
+            title="Silinsin mi?"
+            onConfirm={() => {
+              productstore.deleteProductData(record.ID);
+            }}
+            onCancel={() => {
+              console.log("İşlem iptal edildi.");
+            }}
+            okText="Evet"
+            cancelText="İptal"
+            placement="left"
+          >
+            <a href="/#" style={{ marginLeft: "5px" }}>
+              Sil
+            </a>
+          </Popconfirm>
         </div>
       ),
     },
