@@ -9,7 +9,7 @@ function ProductDetail() {
     const isLoading = productstore.loading;
   const isError = productstore.error;
   const productdata = toJS(productstore.data);
-console.log("AEDFED",productdata.ID);
+console.log("AEDFED",productdata);
     const {ID} = useParams();
     console.log(ID);
 
