@@ -25,6 +25,22 @@ class ProductStore {
     }
   }
 
+
+  //  fetchProductDetailData= async (ID)=> {
+  //    this.loading = true;
+  //    try {
+  //      const fetchDetailResponse = await axios.get("http://localhost:3500/urunList/ID");
+  //      console.log("sdgfsrde",fetchDetailResponse, this.error);
+
+  //      this.data = fetchDetailResponse.data;
+  //    } catch (err) {
+  //      this.error = err;
+  //    } finally {
+  //      this.loading = false;
+  //    }
+  //  }
+
+
    deleteProductData = async(UrunID) => {
     console.log("SDJHFGJ",UrunID);
     this.loading = false;
