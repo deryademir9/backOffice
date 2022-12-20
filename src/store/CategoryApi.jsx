@@ -43,6 +43,10 @@ class DeleteCategoryStore {
       const response = await axios.delete("http://localhost:3500/kategoriSil",{ data: { KategoriId } });
       console.log("askjdgfksjdhyfgvkusj",response.data.json)
       this.data = response.data;
+      if (response.data.responseCode===100) {
+        await this.fetchCategoryData();
+        console.log("kwsje" );
+      }
     } catch (err) {
       this.error = err;
     } finally {

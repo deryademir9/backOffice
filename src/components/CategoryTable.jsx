@@ -27,7 +27,7 @@ function CategoryTable() {
 
   const columns=[{
     title: "Kategori Adı",
-    dataIndex: "Ad",
+    dataIndex: "KategoriAd",
     key: "Ad",
   },
   {
