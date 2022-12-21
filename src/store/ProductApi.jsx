@@ -15,7 +15,7 @@ class ProductStore {
     this.loading = true;
     try {
       const fetchResponse = await axios.get("http://localhost:3500/urunList");
-      console.log("sdgfsrde", fetchResponse, this.error);
+      console.log("sdgfsrde", fetchResponse , this.error);
 
       this.data = fetchResponse.data;
     } catch (err) {
@@ -135,6 +135,33 @@ class ProductStore {
 }
 
 export const productstore = new ProductStore();
+
+
+
+
+  // updateProductData = async (UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID) => {
+  //   this.loading = false;
+  //   console.log("UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID", UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID);
+  //   try {
+  //     console.log(UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID);
+
+  //     const updateResponse = await axios.put(
+  //       "http://localhost:3500/urunGuncelle",
+  //       { UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID }
+  //     );
+  
+  //     console.log("aAAAAAAA", updateResponse.data);
+  //     this.data = updateResponse.data;
+  //   } catch (err) {
+  //     this.error = err;
+  //   } finally {
+  //     this.loading = false;
+  //   }
+  // };
+
+
+
+
 
 // class DeleteProductStore {
 //   data = null;

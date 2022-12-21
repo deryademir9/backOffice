@@ -9,7 +9,7 @@ const ProductTable = observer(() => {
   const isLoading = productstore.loading;
   const isError = productstore.error;
   const productdata = toJS(productstore.data);
-
+console.log("PRODUCTDATA", productdata);
   useEffect(() => {
     productstore.fetchProductData();
   }, []);
