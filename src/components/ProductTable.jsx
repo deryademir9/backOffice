@@ -9,7 +9,8 @@ const ProductTable = observer(() => {
   const isLoading = productstore.loading;
   const isError = productstore.error;
   const productdata = toJS(productstore.data);
-console.log("PRODUCTDATA", productdata);
+  console.log("PRODUCTDATA", productdata);
+
   useEffect(() => {
     productstore.fetchProductData();
   }, []);
@@ -22,7 +23,7 @@ console.log("PRODUCTDATA", productdata);
     return <div> Error</div>;
   }
 
-  console.log(toJS(productdata));
+  console.log(productdata);
 
   const columns = [
     {
@@ -90,11 +91,20 @@ console.log("PRODUCTDATA", productdata);
   return (
     <div>
       <h1 style={{ marginLeft: "40%" }}>Ürün Tablosu</h1>
+      {productdata && productdata.length > 0 ? 
+      (
       <Table
         dataSource={productdata}
         columns={columns}
-        rowKey="productdata.ID"
+        rowKey="ID"
       />
+      ) 
+      : 
+      (
+      <></>
+      )
+    }
+      
     </div>
   );
 });

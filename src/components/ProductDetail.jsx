@@ -1,23 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { productstore } from "../store/ProductApi";
 import { useEffect } from "react";
 import { toJS } from "mobx";
 import { Formik } from "formik";
 import { Button, Form, Input } from "antd";
+import { observer } from "mobx-react-lite";
 
-function ProductDetail() {
+const ProductDetail = observer(() => {
   const isLoading = productstore.loading;
   const isError = productstore.error;
   const productdata = toJS(productstore.data);
   const { ID } = useParams();
+	const [form] = Form.useForm();
+
+  const [initialValuesState, setInitialValuesState] = useState(true)
+
   console.log(ID);
   console.log("productdata", productdata);
-  console.log("aewrsa",productdata.KategoriAd);
+  console.log("aewrsa", productdata);
 
   useEffect(() => {
     productstore.detailProductData({ ID });
   }, []);
+
+  useEffect(() => {
+    if(productdata && initialValuesState) {
+      form.setFieldsValue({
+      ID: productdata.ID || '',
+      Ad: productdata.Ad,
+      Aciklama: productdata.Aciklama,
+      ResimUrl: productdata.ResimUrl,
+      Fiyat: productdata.Fiyat,
+      StokAdedi: productdata.StokAdedi,
+      KategoriID: productdata.KategoriID,
+      UrunDurumuID: productdata.UrunDurumuID,
+      KategoriAd: productdata.KategoriAd,
+    })
+    setInitialValuesState(false)
+    }
+  
+  }, [productdata, form])
 
   // useEffect(() => {
   //   productstore.updateProductData();
@@ -36,213 +59,174 @@ function ProductDetail() {
   //   console.log("submitted");
   // };
   const handleSubmit = async (values, bag) => {
-    console.log("Success:");
+    console.log("Success:", values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-
   return (
     <div>
       <h2 style={{ marginLeft: "40%" }}>ÜRÜN DETAYI</h2>
 
-      <Formik
-        initialValues={{
-          ID: productdata.ID,
-          Ad: productdata.Ad,
-          Aciklama: productdata.Aciklama,
-          ResimUrl: productdata.ResimUrl,
-          Fiyat: productdata.Fiyat,
-          StokAdedi: productdata.StokAdedi,
-          KategoriID: productdata.KategoriID,
-          UrunDurumuID: productdata.UrunDurumuID,
-          KategoriAd: productdata.KategoriAd,
-        }}
-        //validationSchema
-        onSubmit={handleSubmit}
-      >
-        {({
-          handleSubmit,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          values,
-          isSubmitting,
-        }) => (
+  
           <div>
             <div>
               {/* <form onSubmit={handleSubmit}> */}
-                <Form
-                  name="basic"
-                  labelCol={{
-                    span: 8,
-                  }}
-                  wrapperCol={{
-                    span: 8,
-                  }}
-                  initialValues={{
-                    remember: true,
-                  }}
-                  onFinish={handleSubmit}
-                  onFinishFailed={onFinishFailed}
-                  autoComplete="off"
+              <Form
+                form={form}
+                name="basic"
+                labelCol={{
+                  span: 8,
+                }}
+                wrapperCol={{
+                  span: 8,
+                }}
+                onFinish={handleSubmit}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+              >
+                <Form.Item
+                  label="Ad"
+                  name="Ad"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+            
                 >
-                  <Form.Item
-                    label="Ad"
-                    name="{productdata.Ad}"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input
-                    defaultValue={values.Ad}
-                      name={productdata.Ad}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Ad}
-                      disabled={isSubmitting}
-                      
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Aciklama"
-                    name="productdata.Aciklama"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input  name="Aciklama"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Ad}
-                      disabled={isSubmitting}/>
-                  </Form.Item>
-                  <Form.Item
-                    label="ResimUrl"
-                    name="productdata.ResimUrl"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input  name="ResimUrl"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Ad}
-                      disabled={isSubmitting}/>
-                  </Form.Item>
-                  <Form.Item
-                    label="Fiyat"
-                    name="productdata.Fiyat"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input  
+                  <Input
+                    name="Ad"
+                  
+                  />
+                </Form.Item>
+              
+                <Form.Item
+                  label="Aciklama"
+                  name="Aciklama"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+                >
+                  <Input
+                    name="Aciklama"
+                   
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="ResimUrl"
+                  name="ResimUrl"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+                >
+                  <Input
+                    name="ResimUrl"
+                   
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Fiyat"
+                  name="Fiyat"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+                >
+                  <Input
                     name="Fiyat"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Ad}
-                      disabled={isSubmitting}/>
-                  </Form.Item>
-                  <Form.Item
-                    label="StokAdedi"
-                    name="productdata.StokAdedi"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input  name="StokAdedi"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Ad}
-                      disabled={isSubmitting}/>
-                  </Form.Item>
-                  <Form.Item
-                    label="KategoriID"
-                    name="productdata.KategoriID"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input  name="KategoriID"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Ad}
-                      disabled={isSubmitting}/>
-                  </Form.Item>
-                  <Form.Item
-                    label="UrunDurumuID"
-                    name="productdata.UrunDurumuID"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input  name="UrunDurumuID"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.Ad}
-                      disabled={isSubmitting}/>
-                  </Form.Item>
+                   
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="StokAdedi"
+                  name="StokAdedi"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+                >
+                  <Input
+                    name="StokAdedi"
+                   
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="KategoriID"
+                  name='KategoriID'
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+                >
+                  <Input
+                    name="KategoriID"
+                    
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="UrunDurumuID"
+                  name="UrunDurumuID"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+                >
+                  <Input
+                    name="UrunDurumuID"
+                    
+                  />
+                </Form.Item>
 
-                  <Form.Item
-                    label="KategoriAd"
-                    name="productdata.KategoriAd"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Boş bırakılamaz.",
-                      },
-                    ]}
-                  >
-                    <Input name="KategoriAd"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.KategoriAd}
-                      disabled={isSubmitting} />
-                  </Form.Item>
+                <Form.Item
+                  label="KategoriAd"
+                  name="KategoriAd"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Boş bırakılamaz.",
+                    },
+                  ]}
+                >
+                  <Input
+                    name="KategoriAd"
+                    
+                  />
+                </Form.Item>
 
-                  <Form.Item
-                    wrapperCol={{
-                      offset: 8,
-                      span: 16,
-                    }}
-                  >
-                    <Button type="primary" htmlType="submit" >
-                      Update
-                    </Button>
-                  </Form.Item>
-                </Form>
-             {/* / </form> */}
+                <Form.Item
+                  wrapperCol={{
+                    offset: 8,
+                    span: 16,
+                  }}
+                >
+                  <Button type="primary" htmlType="submit">
+                    Update
+                  </Button>
+                </Form.Item>
+              </Form>
+              {/* / </form> */}
             </div>
           </div>
-        )}
-      </Formik>
+      
     </div>
   );
-}
+})
 
 export default ProductDetail;

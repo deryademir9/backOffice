@@ -29,13 +29,16 @@ function CategoryTable() {
     title: "Kategori Adı",
     dataIndex: "KategoriAd",
     key: "Ad",
+    editable: true
   },
+  
   {
     title: "Aksiyon",
     key: "action",
+    
     render: (text, record) => (
       <div>
-        <Link to={`/category/${record.ID}`}>Düzenle</Link>
+        {/* <Link to={`/category/${record.ID}`}>Düzenle</Link> */}
         <Popconfirm 
         title="Silinsin mi?"
         onConfirm={()=>{ deletecategorystore.deleteCategoryData(record.ID)
@@ -52,7 +55,7 @@ function CategoryTable() {
   return (
 <div>
       <h1 style={{marginLeft:'40%'}}>Kategori Tablosu</h1>
-      <Table dataSource={categorydata} columns={columns} ></Table>
+      <Table dataSource={categorydata} columns={columns}  rowKey="categorydata.ID" ></Table>
     </div>  )
 }
 
