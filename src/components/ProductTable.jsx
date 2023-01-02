@@ -1,6 +1,7 @@
 import { productstore } from "../store/ProductApi";
 import { toJS } from "mobx";
 import { Table, Popconfirm } from "antd";
+import AddingModal from "./AddingModal";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
@@ -91,20 +92,13 @@ const ProductTable = observer(() => {
   return (
     <div>
       <h1 style={{ marginLeft: "40%" }}>Ürün Tablosu</h1>
-      {productdata && productdata.length > 0 ? 
-      (
-      <Table
-        dataSource={productdata}
-        columns={columns}
-        rowKey="ID"
-      />
-      ) 
-      : 
-      (
-      <></>
-      )
-    }
-      
+      <AddingModal />
+
+      {productdata && productdata.length > 0 ? (
+        <Table dataSource={productdata} columns={columns} rowKey="ID" />
+      ) : (
+        <></>
+      )}
     </div>
   );
 });

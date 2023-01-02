@@ -25,19 +25,7 @@ class ProductStore {
     }
   };
 
-  //  fetchProductDetailData= async (ID)=> {
-  //    this.loading = true;
-  //    try {
-  //      const fetchDetailResponse = await axios.get("http://localhost:3500/urunList/ID");
-  //      console.log("sdgfsrde",fetchDetailResponse, this.error);
 
-  //      this.data = fetchDetailResponse.data;
-  //    } catch (err) {
-  //      this.error = err;
-  //    } finally {
-  //      this.loading = false;
-  //    }
-  //  }
 
   deleteProductData = async (UrunID) => {
     console.log("SDJHFGJ", UrunID);
@@ -61,6 +49,9 @@ class ProductStore {
       this.loading = false;
     }
   };
+
+
+
 
   addProductData = async (
     UrunAdi,
@@ -99,7 +90,7 @@ class ProductStore {
         UrunDurumuID: "",
       });
       if (addResponse.data.responseCode === 100) {
-        this.fetchProductData();
+        await this.fetchProductData();
       }
       console.log("askjdgfksjdhyfgvkusj", addResponse.data.json);
       this.data = addResponse.data;
@@ -109,6 +100,9 @@ class ProductStore {
       this.loading = false;
     }
   };
+
+
+
 
   detailProductData = async (ID) => {
     this.loading = false;
@@ -132,9 +126,59 @@ class ProductStore {
       this.loading = false;
     }
   };
+
+
+
+
+
+  
+   updateProductData = async (UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID) => {
+     this.loading = false;
+     console.log("UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID", UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID);
+     try {
+       console.log(UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID);
+
+       const updateResponse = await axios.put(
+         "http://localhost:3500/urunGuncelle",
+         { UrunID, UrunAd, UrunAciklama, UrunResimUrl, UrunFiyat, UrunStokAdedi, UrunKategoriID, UrunDurumuID }
+       );
+  
+       console.log("aAAAAAAA", updateResponse.data);
+       this.data = updateResponse.data;
+     } catch (err) {
+       this.error = err;
+     } finally {
+       this.loading = false;
+     }
+   };
+
+
+
 }
 
 export const productstore = new ProductStore();
+
+
+
+
+
+
+
+  
+  //  fetchProductDetailData= async (ID)=> {
+  //    this.loading = true;
+  //    try {
+  //      const fetchDetailResponse = await axios.get("http://localhost:3500/urunList/ID");
+  //      console.log("sdgfsrde",fetchDetailResponse, this.error);
+
+  //      this.data = fetchDetailResponse.data;
+  //    } catch (err) {
+  //      this.error = err;
+  //    } finally {
+  //      this.loading = false;
+  //    }
+  //  }
+
 
 
 
