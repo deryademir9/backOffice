@@ -6,7 +6,7 @@ function AddingModal() {
   const [form] = Form.useForm();
 
 
-  const handleSubmit = async (values, bag) => {
+  const handleSubmit = (values, bag) => {
     console.log("Success:", values);
   };
   const onFinishFailed = (errorInfo) => {
